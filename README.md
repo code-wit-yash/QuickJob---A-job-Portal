@@ -129,8 +129,9 @@ DB_PASSWORD=your_password
 
 Run Spring Boot application:
 
+```bash
 run DemoApplication.java
-
+```
 ```bash
 mvn spring-boot:run
 ```
