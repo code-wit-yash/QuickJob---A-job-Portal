@@ -97,7 +97,11 @@ JobPortalApplication/
 │
 └── README.md
 ```
+### Note
 
+```bash
+In " JobPortalBackend/src/main/java/com/JobPortal/demo/ " add folders " Uploads/photos " and " Uploads/resumes " 
+```
 ---
 
 ## Installation & Setup
