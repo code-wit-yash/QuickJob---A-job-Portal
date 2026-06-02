@@ -55,4 +55,35 @@ public class JobService {
         return applicationRepository.findByJobId(jobId);
     }
 
+    public void deleteJob(Long jobId, String companyEmail) {
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        if (!job.getCompanyEmail().equals(companyEmail)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        jobRepository.delete(job);
+    }
+
+    public Job updateJob(Long jobId, Job updatedJob, String companyEmail) {
+
+        Job existingJob = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        if (!existingJob.getCompanyEmail().equals(companyEmail)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        existingJob.setTitle(updatedJob.getTitle());
+        existingJob.setDescription(updatedJob.getDescription());
+        existingJob.setSkillsRequired(updatedJob.getSkillsRequired());
+        existingJob.setLocation(updatedJob.getLocation());
+        existingJob.setSalary(updatedJob.getSalary());
+        existingJob.setExperienceRequired(updatedJob.getExperienceRequired());
+
+        return jobRepository.save(existingJob);
+    }
+
 }

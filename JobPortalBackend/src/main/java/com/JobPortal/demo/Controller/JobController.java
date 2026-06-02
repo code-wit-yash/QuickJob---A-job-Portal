@@ -2,8 +2,10 @@ package com.JobPortal.demo.Controller;
 
 import com.JobPortal.demo.Entity.Application;
 import com.JobPortal.demo.Entity.Job;
+import com.JobPortal.demo.Repository.JobRepository;
 import com.JobPortal.demo.Services.ApplicationService;
 import com.JobPortal.demo.Services.JobService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,12 @@ public class JobController {
 
     private final ApplicationService applicationService;
 
-    public JobController(JobService jobService, ApplicationService applicationService) {
+    private final JobRepository jobRepository;
+
+    public JobController(JobService jobService, ApplicationService applicationService, JobRepository jobRepository) {
         this.jobService = jobService;
         this.applicationService = applicationService;
+        this.jobRepository = jobRepository;
     }
 
 
@@ -67,4 +72,42 @@ public class JobController {
     public List<Job> getAllJobs() {
         return jobService.getAllJobs();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteJob(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        String companyEmail = authentication.getName();
+
+        jobService.deleteJob(id, companyEmail);
+
+        return ResponseEntity.ok("Job deleted successfully");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateJob(
+            @PathVariable Long id,
+            @RequestBody Job updatedJob,
+            Authentication authentication) {
+
+        String companyEmail = authentication.getName();
+
+        Job job = jobService.updateJob(id, updatedJob, companyEmail);
+
+        return ResponseEntity.ok(job);
+    }
+
+    @GetMapping("/job/{id}")
+    public ResponseEntity<?> getJob(@PathVariable Long id) {
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        return ResponseEntity.ok(job);
+    }
+
+
 }
+
+

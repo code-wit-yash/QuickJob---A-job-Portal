@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../api";
 
 function MyJobs() {
+
+  const navigate = useNavigate();
+
   const [jobs, setJobs] =
     useState([]);
 
@@ -23,6 +26,25 @@ function MyJobs() {
       toast.error(
         "Failed to fetch jobs ❌"
       );
+    }
+  };
+
+  const deleteJob = async (id) => {
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this job?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await API.delete(`/company/delete/${id}`);
+
+      toast.success("Job deleted successfully");
+
+      fetchMyJobs();
+    } catch (err) {
+      toast.error("Failed to delete job");
     }
   };
 
@@ -324,6 +346,65 @@ function MyJobs() {
                     Applicants
                   </button>
                 </Link>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "12px",
+                    marginTop: "15px",
+                  }}
+                >
+                  <button
+                    onClick={() => navigate(`/edit-job/${job.id}`)}
+                    style={{
+                      flex: 1,
+                      padding: "12px 18px",
+                      border: "none",
+                      borderRadius: "12px",
+                      background:
+                        "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)",
+                      color: "#fff",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 8px 20px rgba(37,99,235,0.25)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = "translateY(0)";
+                    }}
+                  >
+                    ✏️ Edit Post
+                  </button>
+
+                  <button
+                    onClick={() => deleteJob(job.id)}
+                    style={{
+                      flex: 1,
+                      padding: "12px 18px",
+                      border: "none",
+                      borderRadius: "12px",
+                      background:
+                        "linear-gradient(135deg, #dc2626 0%, #ef4444 100%)",
+                      color: "#fff",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 8px 20px rgba(239,68,68,0.25)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = "translateY(0)";
+                    }}
+                  >
+                    🗑️ Delete Post
+                  </button>
+                </div>
+
               </div>
             ))
           ) : (

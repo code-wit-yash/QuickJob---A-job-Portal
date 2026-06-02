@@ -12,6 +12,7 @@ import UserProfile from "./pages/UserProfile";
 import CompanyProfile from "./pages/CompanyProfile";
 import ApplicantProfile from "./pages/ApplicantProfile";
 import ViewCompanyProfile from "./pages/ViewCompanyProfile";
+import EditJob from "./pages/EditJob";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/company/profile" element={<CompanyProfile />} />
         <Route path="/profile/:email" element={<ApplicantProfile />} />
         <Route path="/company-view/:email" element={<ViewCompanyProfile />}/>
+        <Route path="/edit-job/:id" element={<EditJob />} />
       </Routes>
     </BrowserRouter>
   );
