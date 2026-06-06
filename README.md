@@ -229,7 +229,7 @@ This project helped in gaining practical experience with:
 ---
 
 ## 🎥 Demo
-🎥 [Watch Demo on Loom](https://www.loom.com/share/d11d51dd7f864188962b875ddccb9c2f)
+🎥 [Watch Project Complete Demo on Loom](https://www.loom.com/share/d11d51dd7f864188962b875ddccb9c2f)
 
 ## Author
 
